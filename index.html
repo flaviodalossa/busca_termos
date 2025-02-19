@@ -23,8 +23,10 @@
         alert("Digite um valor para buscar!");
         return;
       }
-      // Substitua pela URL real do seu serviço no Cloud Run
+      // URL real do serviço no Cloud Run
+     
       const url = `https://busca-med-web-app-562085315701.southamerica-east1.run.app/buscar?valor=${encodeURIComponent(valor)}`;
+
 
       try {
         const response = await fetch(url);
