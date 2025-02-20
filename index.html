@@ -6,15 +6,63 @@
   <style>
     body { font-family: sans-serif; margin: 20px; }
     #resultado { margin-top: 20px; white-space: pre; }
+    table { border-collapse: collapse; margin-top: 20px; }
+    table, th, td { border: 1px solid black; }
+    th, td { padding: 5px; text-align: left; }
   </style>
 </head>
 <body>
   <h1>Busca TUSSxRol</h1>
   <h3>Importante: página de teste, não substitui ferramentas oficiais.</h3>
+  
   <input type="text" id="campoBusca" placeholder="Digite o valor para busca" />
   <button onclick="fazerBusca()">Buscar</button>
   
   <div id="resultado"></div>
+  
+  <h2>Dados da Tabela</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>codigo</th>
+        <th>TUSS</th>
+        <th>TUSSxRol</th>
+        <th>procedimento</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>10101012</td>
+        <td>Consulta em consultório (no horário normal ou preestabelecido)</td>
+        <td>SIM</td>
+        <td>CONSULTA MÉDICA</td>
+      </tr>
+      <tr>
+        <td>10101012</td>
+        <td>Consulta em consultório (no horário normal ou preestabelecido)</td>
+        <td>SIM</td>
+        <td>ATIVIDADE EDUCACIONAL PARA PLANEJAMENTO FAMILIAR</td>
+      </tr>
+      <tr>
+        <td>10101012</td>
+        <td>Consulta em consultório (no horário normal ou preestabelecido)</td>
+        <td>SIM</td>
+        <td>CONSULTA DE ACONSELHAMENTO PARA PLANEJAMENTO FAMILIAR</td>
+      </tr>
+      <tr>
+        <td>10101020</td>
+        <td>Consulta em domicílio</td>
+        <td>NÃO</td>
+        <td>NA</td>
+      </tr>
+      <tr>
+        <td>10101039</td>
+        <td>Consulta em pronto socorro</td>
+        <td>SIM</td>
+        <td>CONSULTA MÉDICA</td>
+      </tr>
+    </tbody>
+  </table>
   
   <script>
     async function fazerBusca() {
@@ -24,14 +72,10 @@
         return;
       }
       // URL real do serviço no Cloud Run
-     
       const url = `https://busca-med-web-app-562085315701.southamerica-east1.run.app/buscar?valor=${encodeURIComponent(valor)}`;
-
-
       try {
         const response = await fetch(url);
         const data = await response.json();
-        
         if (response.ok) {
           document.getElementById('resultado').innerText =
             'Resultado:\n' + JSON.stringify(data.resultado, null, 2);
@@ -46,3 +90,4 @@
   </script>
 </body>
 </html>
+
