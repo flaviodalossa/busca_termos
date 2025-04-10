@@ -5,7 +5,7 @@
   <title>Busca TUSSxRol</title>
   <style>
     body { font-family: sans-serif; margin: 20px; }
-    #resultado { margin-top: 20px; white-space: pre; }
+    #resultado { margin-top: 20px; white-space: pre; padding: 10px; border: 1px solid #ccc; background: #f9f9f9; }
     table { border-collapse: collapse; margin-top: 20px; }
     table, th, td { border: 1px solid black; }
     th, td { padding: 5px; text-align: left; }
@@ -13,8 +13,8 @@
 </head>
 <body>
   <h1>Busca TUSSxRol</h1>
-  <h3>Importante: página de teste.Somente correspondência exata por cada termo pesquisado ou nome composto por mais de um termo, correspondência aproximada e correção ortográfica ainda não implementadas. </h3>
-  <h3>Entre termo TUSS, ou código TUSS. Retorna as correspondencias faltantes</h3>
+  <h3>Importante: página de teste. Somente correspondência exata por cada termo pesquisado ou nome composto por mais de um termo. Correspondência aproximada e correção ortográfica ainda não implementadas.</h3>
+  <h3>Entre termo TUSS ou código TUSS. Retorna as correspondências faltantes</h3>
   
   <input type="text" id="campoBusca" placeholder="Digite o valor para busca" />
   <button onclick="fazerBusca()">Buscar</button>
@@ -72,23 +72,28 @@
         alert("Digite um valor para buscar!");
         return;
       }
-      // URL real do serviço no Cloud Run
+      
+      // URL real do serviço (ajuste conforme seu ambiente)
       const url = `https://busca-med-web-app-562085315701.southamerica-east1.run.app/buscar?valor=${encodeURIComponent(valor)}`;
+      
+      document.getElementById('resultado').innerText = 'Carregando...';
+      
       try {
         const response = await fetch(url);
         const data = await response.json();
+        
+        let output = `Status HTTP: ${response.status}\n\n`;
         if (response.ok) {
-          document.getElementById('resultado').innerText =
-            'Resultado:\n' + JSON.stringify(data.resultado, null, 2);
+          output += 'Resultado:\n' + JSON.stringify(data.resultado, null, 2);
         } else {
-          document.getElementById('resultado').innerText =
-            'Erro: ' + (data.erro || 'Não encontrado');
+          output += 'Erro:\n' + JSON.stringify(data, null, 2);
         }
+        
+        document.getElementById('resultado').innerText = output;
       } catch (error) {
-        document.getElementById('resultado').innerText = 'Erro de conexão: ' + error;
+        document.getElementById('resultado').innerText = 'Erro de conexão ou exceção:\n' + error;
       }
     }
   </script>
 </body>
 </html>
-
